@@ -396,7 +396,18 @@ prompt_template = ChatPromptTemplate.from_messages([
 - For general knowledge, explanations, definitions, historical facts → answer directly without tools
 - For "who is [person]" questions → perform an image search of the person.Show exactly 2 images side by side (horizontal format) of the person like this :
 "Images:  
-<img src="IMAGE_URL_1" width="200"/> <img src="IMAGE_URL_2" width="200"/>"
+{
+  "images": [
+    {
+      "url": "IMAGE_URL_1",
+      "width": 200
+    },
+    {
+      "url": "IMAGE_URL_2",
+      "width": 200
+    }
+  ]
+}"
 - For image requests → use image_search and return the raw JSON exactly as received
 - For news requests → use news_search
 - For time/date questions → use datetime
@@ -1522,3 +1533,4 @@ if __name__ == "__main__":
         workers=1,
         loop="auto"
     )
+
