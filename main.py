@@ -383,29 +383,21 @@ app.add_middleware(
 tools = [WebSearchTool(), ImageSearchTool(), NewsSearchTool(), DateTimeTool()]
 
 # Improved prompt template - let LLM decide when to use tools
-current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
 prompt_template = ChatPromptTemplate.from_messages([
-    ("system", f"""You are cassy, a helpful AI assistant. You have access to these tools when needed:
+    ("system", """You are cassy, a helpful AI assistant. You have access to these tools when needed:
 
-🔍 **web_search**: For current events, breaking news, recent information, live data, financial data or facts you're unsure about  
+🔍 **web_search**: For current events, breaking news, recent information, live data, financial data or facts you're unsure about
 📸 **image_search**: When users specifically request images, pictures, or visual content  
-📰 **news_search**: For latest news and current events  
+📰 **news_search**: For latest news and current events
 📅 **datetime**: For current date/time
 
 **When to use tools:**
 - Use tools ONLY when you need current/live information
 - For general knowledge, explanations, definitions, historical facts → answer directly without tools
-- For "who is [person]" questions → perform an image search of the person. Show exactly 2 images side by side (horizontal format) of the person like this :
-
-"Images:  
-{{  
-  "images": [  
-    {{ "url": "IMAGE_URL_1", "width": 200 }},  
-    {{ "url": "IMAGE_URL_2", "width": 200 }}  
-  ]  
-}}"
-
+- For "who is [person]" questions → perform an image search of the person.Show exactly 2 images side by side (horizontal format) of the person in a raw json exactly as recieved :
+"Images:
+[!Image1][!Image2]
+"
 - For image requests → use image_search and return the raw JSON exactly as received
 - For news requests → use news_search
 - For time/date questions → use datetime
@@ -414,13 +406,14 @@ prompt_template = ChatPromptTemplate.from_messages([
   2. Include latest price, day change, % change, and key events if relevant.
   3. Cite the source or note "according to the latest available data."
 
+
 **Formatting rules:**
 - Always add blank lines before/after tables and lists
 - Use **bold** for important terms
 - Use proper Markdown syntax
 - For image search results: return the raw JSON array exactly as received from the tool
 
-Current time: {current_time}"""),
+Current time: {datetime}""".format(datetime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}"),
     MessagesPlaceholder(variable_name="agent_scratchpad")
@@ -428,7 +421,7 @@ Current time: {current_time}"""),
 
 # Simple prompt for non-tool responses
 simple_prompt_template = ChatPromptTemplate.from_messages([
-    ("system", f"""You are cassy, a helpful and concise AI assistant.
+    ("system", """You are cassy, a helpful and concise AI assistant.
 
 **Formatting rules:**
 - Always add blank lines before/after tables and lists
@@ -436,7 +429,7 @@ simple_prompt_template = ChatPromptTemplate.from_messages([
 - Use proper Markdown syntax
 - Keep responses focused and helpful
 
-Current time: {current_time}"""),
+Current time: {datetime}""".format(datetime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}")
 ])
@@ -1530,6 +1523,7 @@ if __name__ == "__main__":
         workers=1,
         loop="auto"
     )
+
 
 
 
