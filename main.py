@@ -426,7 +426,7 @@ Current time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""),
 
 # Simple prompt for non-tool responses
 simple_prompt_template = ChatPromptTemplate.from_messages([
-    ("system", """You are cassy, a helpful and concise AI assistant.
+    ("system", f"""You are cassy, a helpful and concise AI assistant.
 
 **Formatting rules:**
 - Always add blank lines before/after tables and lists
