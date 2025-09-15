@@ -7,4 +7,5 @@ openai
 langchain-openai
 SpeechRecognition
 dotenv
+gunicorn
 aiohttp
