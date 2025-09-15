@@ -1,0 +1,10 @@
+langchain
+fastapi
+uvicorn
+pymongo
+motor
+openai
+langchain-openai
+SpeechRecognition
+dotenv
+aiohttp
