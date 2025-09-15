@@ -394,10 +394,7 @@ prompt_template = ChatPromptTemplate.from_messages([
 **When to use tools:**
 - Use tools ONLY when you need current/live information
 - For general knowledge, explanations, definitions, historical facts → answer directly without tools
-- For "who is [person]" questions → perform an image search of the person.Show exactly 2 images side by side (horizontal format) of the person in a raw json exactly as recieved :
-"Images:
-[!Image1][!Image2]
-"
+- For "who is [person]" questions → perform an image_search of the person.Return exactly 2 images side by side (200x200).Dump them in raw JSON exactly as received from the tool (no extra formatting).
 - For image requests → use image_search and return the raw JSON exactly as received
 - For news requests → use news_search
 - For time/date questions → use datetime
@@ -1523,6 +1520,7 @@ if __name__ == "__main__":
         workers=1,
         loop="auto"
     )
+
 
 
 
