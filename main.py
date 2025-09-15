@@ -383,8 +383,10 @@ app.add_middleware(
 tools = [WebSearchTool(), ImageSearchTool(), NewsSearchTool(), DateTimeTool()]
 
 # Improved prompt template - let LLM decide when to use tools
+current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 prompt_template = ChatPromptTemplate.from_messages([
-    ("system", """You are cassy, a helpful AI assistant. You have access to these tools when needed:
+    ("system", f"""You are cassy, a helpful AI assistant. You have access to these tools when needed:
 
 🔍 **web_search**: For current events, breaking news, recent information, live data, financial data or facts you're unsure about  
 📸 **image_search**: When users specifically request images, pictures, or visual content  
@@ -418,7 +420,7 @@ prompt_template = ChatPromptTemplate.from_messages([
 - Use proper Markdown syntax
 - For image search results: return the raw JSON array exactly as received from the tool
 
-Current time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""),
+Current time: {current_time}"""),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}"),
     MessagesPlaceholder(variable_name="agent_scratchpad")
@@ -434,7 +436,7 @@ simple_prompt_template = ChatPromptTemplate.from_messages([
 - Use proper Markdown syntax
 - Keep responses focused and helpful
 
-Current time: {datetime}""".format(datetime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))),
+Current time: {current_time}"""),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}")
 ])
@@ -1528,5 +1530,6 @@ if __name__ == "__main__":
         workers=1,
         loop="auto"
     )
+
 
 
